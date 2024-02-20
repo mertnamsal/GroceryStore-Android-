@@ -12,12 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroceryStore"
         tools:targetApi="31">
-        <activity android:name=".RegistrationActivity"
+
+        <activity
+            android:name=".RegistrationActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -27,8 +26,16 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.GroceryStore.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
