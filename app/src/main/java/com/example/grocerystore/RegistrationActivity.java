@@ -72,16 +72,15 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(this,"Password length must be greater then 6 letter", Toast.LENGTH_SHORT).show();
             return;
         }
+        System.out.println("Regist  intent öncesi");
+        Intent intent = new Intent(RegistrationActivity.this,RecaptchaActivity.class);
+        intent.putExtra("mail",userEmail);
+        intent.putExtra("password",userPassword);
 
-        auth.createUserWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(RegistrationActivity.this,"Registration Successful",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(RegistrationActivity.this,"Error: "+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        startActivity(intent);
+        System.out.println("Regist  intent sonrası");
+
+
     }
+
 }
