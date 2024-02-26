@@ -30,13 +30,10 @@ public class RecaptchaActivity extends AppCompatActivity implements GoogleApiCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recaptcha);
-        System.out.println("recaptcha basladi");
 
         checkBox = findViewById(R.id.checkBoxId);
         String mail = getIntent().getStringExtra("mail");
-        System.out.println("mail : "+mail);
         String password = getIntent().getStringExtra("password");
-        System.out.println("password : "+password);
 
 
         googleApiClient = new GoogleApiClient.Builder(this)
@@ -55,10 +52,7 @@ public class RecaptchaActivity extends AppCompatActivity implements GoogleApiCli
                                 @Override
                                 public void onResult(@NonNull SafetyNetApi.RecaptchaTokenResult recaptchaTokenResult) {
                                     Status status = recaptchaTokenResult.getStatus();
-                                    System.out.println("2");
-                                    System.out.println(status.toString());
                                     if((status != null) && (status.isSuccess())){
-                                        System.out.println("222");
                                         Toast.makeText(RecaptchaActivity.this,"Verification successful",Toast.LENGTH_SHORT).show();
                                         checkBox.setTextColor(Color.GREEN);
                                         auth.createUserWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -82,7 +76,6 @@ public class RecaptchaActivity extends AppCompatActivity implements GoogleApiCli
                 }
             }
         });
-        System.out.println("3");
 
 
     }

@@ -72,15 +72,10 @@ public class RegistrationActivity extends AppCompatActivity {
             Toast.makeText(this,"Password length must be greater then 6 letter", Toast.LENGTH_SHORT).show();
             return;
         }
-        System.out.println("Regist  intent öncesi");
         Intent intent = new Intent(RegistrationActivity.this,RecaptchaActivity.class);
         intent.putExtra("mail",userEmail);
         intent.putExtra("password",userPassword);
-
         startActivity(intent);
-        System.out.println("Regist  intent sonrası");
-
-
     }
 
 }
