@@ -1,4 +1,4 @@
-package com.example.grocerystore;
+package com.example.grocerystore.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,30 +8,33 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.grocerystore.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
 
         auth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressbar);
         progressBar.setVisibility(View.GONE);
         if(auth.getCurrentUser() != null){
             progressBar.setVisibility(View.VISIBLE);
+            startActivity(new Intent(HomeActivity.this, MainActivity.class));
             Toast.makeText(this, "please wait you are already logged in", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
     public void login(View view) {
-        startActivity(new Intent(MainActivity.this,LoginActivity.class));
+        startActivity(new Intent(HomeActivity.this, LoginActivity.class));
     }
     public void registration(View view) {
-        startActivity(new Intent(MainActivity.this, RegistrationActivity.class));
+        startActivity(new Intent(HomeActivity.this, RegistrationActivity.class));
     }
 }
