@@ -1,9 +1,9 @@
 package com.example.grocerystore.model;
 
 public class UserModel {
-    String name;
-    String email;
-    String password;
+    private String name;
+    private String email;
+    private String password;
 
     public UserModel() {
     }
