@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.grocerystore.R;
 import com.example.grocerystore.adapters.HomeCategoryAdapter;
-import com.example.grocerystore.adapters.PopularAdapters;
+import com.example.grocerystore.adapters.PopularAdapter;
+import com.example.grocerystore.adapters.RecommendedAdapter;
 import com.example.grocerystore.model.HomeCategoryModel;
 import com.example.grocerystore.model.PopularModel;
+import com.example.grocerystore.model.RecommendedModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,14 +32,17 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
 
-    RecyclerView popularRec,homeCatRec;
+    RecyclerView popularRec,homeCatRec,recommendedRec;
     FirebaseFirestore db;
     //Popular Items
     List<PopularModel> popularModelList;
-    PopularAdapters popularAdapters;
+    PopularAdapter popularAdapter;
     //Home Category
     List<HomeCategoryModel> homeCategoryList;
     HomeCategoryAdapter homeCategoryAdapter;
+    //Recommended
+    List<RecommendedModel>recommendedModelList;
+    RecommendedAdapter recommendedAdapter;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container,false);
@@ -45,12 +50,14 @@ public class HomeFragment extends Fragment {
 
         popularRec = root.findViewById(R.id.pop_rec);
         homeCatRec = root.findViewById(R.id.explore_rec);
+        recommendedRec = root.findViewById(R.id.recommended_rec);
+
 
         //Popular items
         popularRec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
         popularModelList = new ArrayList<>();
-        popularAdapters = new PopularAdapters(getActivity(),popularModelList);
-        popularRec.setAdapter(popularAdapters);
+        popularAdapter = new PopularAdapter(getActivity(),popularModelList);
+        popularRec.setAdapter(popularAdapter);
 
         db.collection("PopularProducts")
                 .get()
@@ -61,7 +68,7 @@ public class HomeFragment extends Fragment {
                             for(QueryDocumentSnapshot document : task.getResult()){
                                 PopularModel popularModel = document.toObject(PopularModel.class);
                                 popularModelList.add(popularModel);
-                                popularAdapters.notifyDataSetChanged();
+                                popularAdapter.notifyDataSetChanged();
                             }
                         }else{
                             Toast.makeText(getActivity(), "Error "+task.getException(), Toast.LENGTH_SHORT).show();
@@ -85,6 +92,29 @@ public class HomeFragment extends Fragment {
                                 HomeCategoryModel homeCategoryModel = document.toObject(HomeCategoryModel.class);
                                 homeCategoryList.add(homeCategoryModel);
                                 homeCategoryAdapter.notifyDataSetChanged();
+                            }
+                        }else{
+                            Toast.makeText(getActivity(), "Error "+task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        //Recommended
+        recommendedRec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        recommendedModelList = new ArrayList<>();
+        recommendedAdapter = new RecommendedAdapter(getActivity(),recommendedModelList);
+        recommendedRec.setAdapter(recommendedAdapter);
+
+        db.collection("Recommended")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot document : task.getResult()){
+                                RecommendedModel recommendedModel = document.toObject(RecommendedModel.class);
+                                recommendedModelList.add(recommendedModel);
+                                recommendedAdapter.notifyDataSetChanged();
                             }
                         }else{
                             Toast.makeText(getActivity(), "Error "+task.getException(), Toast.LENGTH_SHORT).show();
