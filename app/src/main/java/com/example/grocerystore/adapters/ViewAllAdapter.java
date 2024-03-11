@@ -15,6 +15,7 @@ import com.example.grocerystore.R;
 import com.example.grocerystore.model.ViewAllModel;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHolder> {
 
@@ -39,6 +40,13 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
         holder.description.setText(viewAllModelList.get(position).getDescription());
         holder.rating.setText(viewAllModelList.get(position).getRating());
         holder.price.setText(String.valueOf(viewAllModelList.get(position).getPrice()));
+
+        if(Objects.equals(viewAllModelList.get(holder.getAdapterPosition()).getType(), "egg")){
+            holder.price.setText(viewAllModelList.get(position).getPrice()+"/dozen");
+        }
+        if(Objects.equals(viewAllModelList.get(holder.getAdapterPosition()).getType(), "milk")){
+            holder.price.setText(viewAllModelList.get(position).getPrice()+"/litre");
+        }
 
     }
 

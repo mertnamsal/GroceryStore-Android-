@@ -1,6 +1,7 @@
 package com.example.grocerystore.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.grocerystore.R;
+import com.example.grocerystore.activities.ViewAllActivity;
 import com.example.grocerystore.model.HomeCategoryModel;
 
 import java.util.List;
@@ -36,6 +38,15 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void onBindViewHolder(@NonNull HomeCategoryAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(categoryModelList.get(position).getImg_url()).into(holder.catImg);
         holder.name.setText(categoryModelList.get(position).getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewAllActivity.class);
+                intent.putExtra("type",categoryModelList.get(holder.getAdapterPosition()).getType());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
