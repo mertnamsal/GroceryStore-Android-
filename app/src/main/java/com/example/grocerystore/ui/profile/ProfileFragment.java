@@ -56,19 +56,19 @@ public class ProfileFragment extends Fragment {
         update = root.findViewById(R.id.update_btn);
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                UserModel userModel = snapshot.getValue(UserModel.class);
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        UserModel userModel = snapshot.getValue(UserModel.class);
 
-                                Glide.with(getContext()).load(userModel.getProfileImg()).into(profileImg);
-                            }
+                        Glide.with(getContext()).load(userModel.getProfileImg()).into(profileImg);
+                    }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
+                    }
+                });
         profileImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
