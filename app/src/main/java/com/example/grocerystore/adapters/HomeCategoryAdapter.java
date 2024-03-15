@@ -38,7 +38,6 @@ public class HomeCategoryAdapter extends RecyclerView.Adapter<HomeCategoryAdapte
     public void onBindViewHolder(@NonNull HomeCategoryAdapter.ViewHolder holder, int position) {
         Glide.with(context).load(categoryModelList.get(position).getImg_url()).into(holder.catImg);
         holder.name.setText(categoryModelList.get(position).getName());
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
