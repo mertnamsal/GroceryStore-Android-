@@ -177,10 +177,10 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
-    private void searchProduct(String type) {
+    private void searchProduct(String searchText) {
 
-        if(!type.isEmpty()){
-            db.collection("AllProducts").whereEqualTo("type",type).get()
+        if(!searchText.isEmpty()){
+            db.collection("AllProducts").get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -189,8 +189,11 @@ public class HomeFragment extends Fragment {
                                 viewAllAdapter.notifyDataSetChanged();
                                 for(DocumentSnapshot doc: task.getResult().getDocuments()){
                                     ViewAllModel viewAllModel = doc.toObject(ViewAllModel.class);
-                                    viewAllModelList.add(viewAllModel);
-                                    viewAllAdapter.notifyDataSetChanged();
+                                    if(viewAllModel.getName().toLowerCase().contains(searchText)){
+                                        viewAllModelList.add(viewAllModel);
+                                        viewAllAdapter.notifyDataSetChanged();
+                                    }
+
                                 }
                             }
                         }
