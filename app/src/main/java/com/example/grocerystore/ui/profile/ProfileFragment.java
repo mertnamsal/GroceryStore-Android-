@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
     FirebaseStorage storage;
     FirebaseAuth auth;
     FirebaseDatabase database;
+    ProgressBar progressBar;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container,false);
@@ -47,6 +49,8 @@ public class ProfileFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+        progressBar = root.findViewById(R.id.progressbar);
+
 
         profileImg = root.findViewById(R.id.profile_img);
         name = root.findViewById(R.id.profile_name);
@@ -54,6 +58,8 @@ public class ProfileFragment extends Fragment {
         number = root.findViewById(R.id.profile_number);
         address = root.findViewById(R.id.profile_address);
         update = root.findViewById(R.id.update_btn);
+        progressBar.setVisibility(View.VISIBLE);
+        makeInvisibleData();
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -62,6 +68,8 @@ public class ProfileFragment extends Fragment {
                         UserModel userModel = snapshot.getValue(UserModel.class);
 
                         Glide.with(getContext()).load(userModel.getProfileImg()).into(profileImg);
+                        progressBar.setVisibility(View.GONE);
+                        makeVisibleData();
                     }
 
                     @Override
@@ -88,6 +96,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void updateUserProfile() {
+
     }
 
     @Override
@@ -116,5 +125,21 @@ public class ProfileFragment extends Fragment {
                 }
             });
         }
+    }
+    public void makeInvisibleData(){
+        name.setVisibility(View.GONE);
+        email.setVisibility(View.GONE);
+        number.setVisibility(View.GONE);
+        address.setVisibility(View.GONE);
+        profileImg.setVisibility(View.GONE);
+        update.setVisibility(View.GONE);
+    }
+    public void makeVisibleData(){
+        name.setVisibility(View.VISIBLE);
+        email.setVisibility(View.VISIBLE);
+        number.setVisibility(View.VISIBLE);
+        address.setVisibility(View.VISIBLE);
+        profileImg.setVisibility(View.VISIBLE);
+        update.setVisibility(View.VISIBLE);
     }
 }
